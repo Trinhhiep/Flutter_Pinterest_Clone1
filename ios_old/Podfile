@@ -1,0 +1,33 @@
+## Uncomment the next line to define a global platform for your project
+#platform :ios, '12.0'
+#
+#target 'Runner' do
+#  # Comment the next line if you don't want to use dynamic frameworks
+#  use_frameworks!
+#
+#  # Pods for Runner
+#
+#  target 'RunnerTests' do
+#    inherit! :search_paths
+#    # Pods for testing
+#  end
+#
+#end
+# Khai báo version tối thiểu
+platform :ios, '12.0'
+
+# Đường dẫn tới Flutter SDK
+flutter_root = File.expand_path('~/flutter')
+
+# Load helper cho Flutter iOS
+require File.expand_path(File.join('packages', 'flutter_tools', 'bin', 'podhelper'), flutter_root)
+
+# Tắt analytics nếu cần
+ENV['COCOAPODS_DISABLE_STATS'] = 'true'
+
+target 'Runner' do
+  use_frameworks!
+
+  # Gọi hàm cài tất cả pods cần thiết cho Flutter
+  flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
+end
