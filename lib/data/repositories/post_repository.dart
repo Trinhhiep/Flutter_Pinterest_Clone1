@@ -6,5 +6,7 @@ class PostRepository {
 
   PostRepository(this.remoteDataSource);
 
-  Future<List<PostModel>> getPosts() => remoteDataSource.fetchPosts();
+  Future<List<PostModel>> getPosts({int page = 0}) {
+    return remoteDataSource.fetchPosts(page: page);
+  }
 }

@@ -35,7 +35,9 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
   provider: ^6.1.5
-
+  skeleton_loader: ^2.0.0+4
+  flutter_staggered_grid_view: ^0.7.0
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -52,7 +54,8 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
-
+  assets:
+    - assets/placeholder.png
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.

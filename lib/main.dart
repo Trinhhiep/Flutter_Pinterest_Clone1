@@ -11,7 +11,7 @@ void main() {
 
   runApp(
     ChangeNotifierProvider(
-      create: (_) => HomeViewModel(repository)..fetchPosts(),
+      create: (_) => HomeViewModel(repository)..fetchData(),
       child: const MyApp(),
     ),
   );
