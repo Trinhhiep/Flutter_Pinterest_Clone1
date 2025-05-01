@@ -6,7 +6,7 @@ class PostRemoteDataSource {
   static const int _pageSize = 10;
 
   Future<List<PostModel>> fetchPosts({int page = 0}) async {
-    await Future.delayed(Duration(seconds: 2)); // giả lập call API
+    await Future.delayed(Duration(seconds: 1)); // giả lập call API
 
     final startIndex = page * _pageSize;
 
