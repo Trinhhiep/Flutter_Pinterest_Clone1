@@ -3,7 +3,7 @@ import 'dart:math';
 import '../../../data/models/post_model.dart';
 
 class PostRemoteDataSource {
-  static const int _pageSize = 20;
+  static const int _pageSize = 10;
 
   Future<List<PostModel>> fetchPosts({int page = 0}) async {
     await Future.delayed(Duration(seconds: 2)); // giả lập call API

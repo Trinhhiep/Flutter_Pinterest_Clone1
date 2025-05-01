@@ -8,16 +8,45 @@ class RootScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CupertinoTabScaffold(
-      tabBar:  CupertinoTabBar(
+      tabBar: CupertinoTabBar(
+        activeColor: CupertinoColors.black,
+        inactiveColor: CupertinoColors.systemGrey,
         items: [
           BottomNavigationBarItem(
-            icon: Icon(CupertinoIcons.home),
-            label: 'Home',
+            icon: Padding(
+              padding: const EdgeInsets.only(top: 8.0),
+              
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+                    Icon(CupertinoIcons.home, size: 24),
+                    SizedBox(height: 2),
+                    Text(
+                      'Home',
+                      style: TextStyle(fontSize: 10),
+                    ),
+                  ],
+                ),
+            ),
           ),
-          BottomNavigationBarItem(
-            icon: Icon(CupertinoIcons.person),
-            label: 'Profile',
+           BottomNavigationBarItem(
+            icon: Padding(
+              padding: const EdgeInsets.only(top: 8.0),
+              
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+                    Icon(CupertinoIcons.person, size: 24),
+                    SizedBox(height: 2),
+                    Text(
+                      'Profile',
+                      style: TextStyle(fontSize: 10),
+                    ),
+                  ],
+                ),
+            ),
           ),
+        
         ],
       ),
       tabBuilder: (context, index) {

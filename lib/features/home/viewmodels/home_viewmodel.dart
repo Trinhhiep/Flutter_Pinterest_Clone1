@@ -8,7 +8,7 @@ class HomeViewModel extends ChangeNotifier {
   final ScrollController scrollController = ScrollController();
 
   List<PostModel> posts = [];
-  bool isLoading = false;
+  bool isFirstFetch = false;
   int _currentPage = 0;
   bool _isFetchingMore = false;
   bool _hasMore = true;
@@ -20,16 +20,27 @@ class HomeViewModel extends ChangeNotifier {
 
   bool get isFetchingMore => _isFetchingMore;
 
+  Future<void> refreshPosts() async {
+    _currentPage = 0 ;
+    notifyListeners();
+    // Giả lập lấy lại dữ liệu
+    final newPosts = await repository.getPosts(page: _currentPage);
+    posts = newPosts;
+
+    print("HomeViewModel pullToRefresh");
+    notifyListeners();
+  }
 
   Future<void> fetchData() async {
-    if (isLoading) return;
+    _currentPage = 0;
+    if (isFirstFetch) return;
 
-    isLoading = true;
+    isFirstFetch = true;
     notifyListeners();
 
     final newPosts = await repository.getPosts(page: _currentPage);
     posts = newPosts;
-    isLoading = false;
+    isFirstFetch = false;
     notifyListeners();
   }
 
