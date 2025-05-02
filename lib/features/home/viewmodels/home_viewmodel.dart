@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
-import 'package:pinterest_layout_app/features/detailpost/detailpost_creen.dart';
-import 'package:pinterest_layout_app/features/detailpost/detaipost_viewmodel.dart';
+import 'package:pinterest_layout_app/features/detail_post/detail_post_creen.dart';
+import 'package:pinterest_layout_app/features/detail_post/detail_post_viewmodel.dart';
+import 'package:pinterest_layout_app/features/mul_detail_post/mul_detail_post_screen.dart';
+import 'package:pinterest_layout_app/features/mul_detail_post/mul_detail_post_viewmodel.dart';
 import 'package:pinterest_layout_app/routes/app_routes.dart';
 import 'package:provider/provider.dart';
 import '../../../data/models/post_model.dart';
@@ -78,11 +79,19 @@ class HomeViewModel extends ChangeNotifier {
     super.dispose();
   }
 
-  CustomCupertinoPageRoute createRoute(PostModel post) {
+//   CustomCupertinoPageRoute createRoute(PostModel post) {
+//   return CustomCupertinoPageRoute(
+//     page: ChangeNotifierProvider(
+//       create: (_) => DetailPostViewModel(repository), // truyền repository của bạn
+//       child: DetailPostScreen(post: post),
+//     ),
+//   );
+// }
+CustomCupertinoPageRoute createRoute(List<PostModel> posts, int pageIndex) {
   return CustomCupertinoPageRoute(
     page: ChangeNotifierProvider(
-      create: (_) => DetailPostViewModel(repository), // truyền repository của bạn
-      child: DetailPostScreen(post: post),
+      create: (_) => MulDetailPostViewModel(repository, posts), // truyền repository của bạn
+      child: MulDetailPostScreen(posts: posts, pageIndex: pageIndex,),
     ),
   );
 }

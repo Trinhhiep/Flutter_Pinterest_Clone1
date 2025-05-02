@@ -11,7 +11,7 @@ class PostModel {
     required this.title,
     required this.width,
     required this.height,
-  });
+  }); 
   double get aspectRatio {
     if (width > 0 && height > 0) {
       return width / height;

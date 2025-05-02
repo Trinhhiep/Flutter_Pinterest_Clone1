@@ -1,9 +1,6 @@
 import 'package:flutter/cupertino.dart';
-import 'package:pinterest_layout_app/features/detailpost/detailpost_creen.dart';
 import 'package:pinterest_layout_app/features/home/widgets/post_grid.dart';
-import 'package:pinterest_layout_app/routes/app_routes.dart';
 import 'package:provider/provider.dart';
-import '../../../data/models/post_model.dart';
 import '../viewmodels/home_viewmodel.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -51,7 +48,7 @@ class HomeScreen extends StatelessWidget {
                         onTap: (index) {
                           Navigator.push(
                             context,
-                            viewModel.createRoute(viewModel.posts[index]),
+                            viewModel.createRoute(viewModel.posts, index),
                             // CupertinoPageRoute(
                             //   builder:
                             //       (_) => DetailPostScreen(

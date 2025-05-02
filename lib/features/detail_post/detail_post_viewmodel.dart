@@ -1,24 +1,27 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
-import 'package:pinterest_layout_app/data/datasources/post_remote_datasource.dart';
-import 'package:pinterest_layout_app/features/detailpost/detailpost_creen.dart';
+import 'package:pinterest_layout_app/features/mul_detail_post/mul_detail_post_screen.dart';
+import 'package:pinterest_layout_app/features/mul_detail_post/mul_detail_post_viewmodel.dart';
 import 'package:pinterest_layout_app/routes/app_routes.dart';
 import 'package:provider/provider.dart';
 import '../../../data/models/post_model.dart';
 import '../../../data/repositories/post_repository.dart';
 
 class DetailPostViewModel extends ChangeNotifier {
+  
   final PostRepository repository;
   final ScrollController scrollController = ScrollController();
+  final PostModel mainPost;
   List<PostModel> posts = [];
   bool isFirstFetch = false;
   int _currentPage = 0;
   bool _isFetchingMore = false;
   bool _hasMore = true;
 
-  DetailPostViewModel(this.repository) {
+  DetailPostViewModel(this.repository, this.mainPost) {
     fetchData();
     scrollController.addListener(_onScroll);
+    print("DetailPostViewModel ===== Init =====");
+    print('🧹 ViewModel Init → ${runtimeType}');
   }
 
   bool get isFetchingMore => _isFetchingMore;
@@ -75,13 +78,23 @@ class DetailPostViewModel extends ChangeNotifier {
   void dispose() {
     scrollController.dispose();
     super.dispose();
+    print("DetailPostViewModel ===== Dispose =====");
+    print('🧹 ViewModel Disposed → ${runtimeType}');
   }
 
-  CustomCupertinoPageRoute createRoute(PostModel post) {
+//   CustomCupertinoPageRoute createRoute(PostModel post) {
+//   return CustomCupertinoPageRoute(
+//     page: ChangeNotifierProvider(
+//       create: (_) => DetailPostViewModel(repository), // truyền repository của bạn
+//       child: DetailPostScreen(post: post),
+//     ),
+//   );
+// }
+CustomCupertinoPageRoute createRoute(List<PostModel> posts, int pageIndex) {
   return CustomCupertinoPageRoute(
     page: ChangeNotifierProvider(
-      create: (_) => DetailPostViewModel(repository), // truyền repository của bạn
-      child: DetailPostScreen(post: post),
+      create: (_) => MulDetailPostViewModel(repository,posts), // truyền repository của bạn
+      child: MulDetailPostScreen(posts: posts, pageIndex: pageIndex),
     ),
   );
 }

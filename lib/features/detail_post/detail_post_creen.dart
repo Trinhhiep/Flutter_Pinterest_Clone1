@@ -1,10 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:pinterest_layout_app/data/models/post_model.dart';
-import 'package:pinterest_layout_app/features/detailpost/detaipost_viewmodel.dart';
+import 'package:pinterest_layout_app/features/detail_post/detail_post_viewmodel.dart';
 import 'package:pinterest_layout_app/features/home/widgets/back_button.dart';
 import 'package:pinterest_layout_app/features/home/widgets/post_grid.dart';
 import 'package:pinterest_layout_app/features/home/widgets/post_tile.dart';
-import 'package:pinterest_layout_app/routes/app_routes.dart';
 import 'package:provider/provider.dart';
 
 class DetailPostScreen extends StatelessWidget {
@@ -19,6 +18,7 @@ class DetailPostScreen extends StatelessWidget {
     return CupertinoPageScaffold(
       child: SafeArea(
         top: false,
+        bottom: false,
         child: Stack(
           children: [
             CustomScrollView(
@@ -54,7 +54,7 @@ class DetailPostScreen extends StatelessWidget {
                           Navigator.push(
                             context,
                             // _createRoute(viewModel.posts[index]),
-                            viewModel.createRoute(viewModel.posts[index]),
+                            viewModel.createRoute(viewModel.posts, index),
                           );
                         },
                       ),
@@ -72,7 +72,7 @@ class DetailPostScreen extends StatelessWidget {
             ),
             Padding(
               padding: EdgeInsets.only(
-                top: topPadding,
+                top: topPadding + 6,
                 left: 12,
               ),
               child: CupertinoBackButton(),
