@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:pinterest_layout_app/features/detailpost/detaipost_viewmodel.dart';
 import 'package:provider/provider.dart';
 
 import 'data/datasources/post_remote_datasource.dart';
@@ -10,11 +11,19 @@ void main() {
   final repository = PostRepository(PostRemoteDataSource());
 
   runApp(
-    ChangeNotifierProvider(
-      create: (_) => HomeViewModel(repository)..fetchData(),
-      child: const MyApp(),
-    ),
-  );
+  MultiProvider(
+    providers: [
+      ChangeNotifierProvider<HomeViewModel>(
+        create: (_) => HomeViewModel(repository)..fetchData(),
+      ),
+      ChangeNotifierProvider<DetailPostViewModel>(
+        create: (_) => DetailPostViewModel(repository)..fetchData(),
+      ),
+     
+    ],
+    child: const MyApp(),
+  ),
+);
 }
 
 class MyApp extends StatelessWidget {

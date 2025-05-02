@@ -3,19 +3,26 @@ import '../../../data/models/post_model.dart';
 
 class PostTile extends StatefulWidget {
   final PostModel post;
+  final VoidCallback? onTap;
 
-  const PostTile({super.key, required this.post});
+  const PostTile({super.key, required this.post, this.onTap});
 
   @override
-  State<PostTile> createState() => _PostTileState();
+  State<PostTile> createState() => _PostTileState(onTap: onTap);
 }
 
 class _PostTileState extends State<PostTile> {
   bool _isLoaded = false;
+  
+  final VoidCallback? onTap;
+
+  _PostTileState({required this.onTap});
+
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
+    return GestureDetector(onTap : onTap ,
+    child :  ClipRRect(
       borderRadius: BorderRadius.circular(8),
       child: AspectRatio(
         aspectRatio: widget.post.aspectRatio,
@@ -55,14 +62,16 @@ class _PostTileState extends State<PostTile> {
           ],
         ),
       ),
+    )
     );
+    
   }
 }
 
 
 
 
-
+ 
 // import 'package:flutter/material.dart';
 // import '../../../data/models/post_model.dart';
 
