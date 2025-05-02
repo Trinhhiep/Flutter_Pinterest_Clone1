@@ -16,9 +16,9 @@ void main() {
       ChangeNotifierProvider<HomeViewModel>(
         create: (_) => HomeViewModel(repository)..fetchData(),
       ),
-      ChangeNotifierProvider<DetailPostViewModel>(
-        create: (_) => DetailPostViewModel(repository)..fetchData(),
-      ),
+      // ChangeNotifierProvider<DetailPostViewModel>(
+      //   create: (_) => DetailPostViewModel(repository)..fetchData(),
+      // ),
      
     ],
     child: const MyApp(),

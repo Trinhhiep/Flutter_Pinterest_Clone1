@@ -13,8 +13,8 @@ class PostGrid extends StatelessWidget {
   Widget build(BuildContext context) {
     return SliverMasonryGrid.count(
         crossAxisCount: 2,
-        mainAxisSpacing: 12,
-        crossAxisSpacing: 12,
+        mainAxisSpacing: 8,
+        crossAxisSpacing: 4,
         childCount: posts.length,
         itemBuilder: (context, index) {
           return PostTile(

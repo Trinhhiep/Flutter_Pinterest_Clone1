@@ -1,12 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
+import 'package:pinterest_layout_app/data/datasources/post_remote_datasource.dart';
+import 'package:pinterest_layout_app/features/detailpost/detailpost_creen.dart';
+import 'package:pinterest_layout_app/routes/app_routes.dart';
+import 'package:provider/provider.dart';
 import '../../../data/models/post_model.dart';
 import '../../../data/repositories/post_repository.dart';
 
 class DetailPostViewModel extends ChangeNotifier {
   final PostRepository repository;
   final ScrollController scrollController = ScrollController();
-
   List<PostModel> posts = [];
   bool isFirstFetch = false;
   int _currentPage = 0;
@@ -73,4 +76,13 @@ class DetailPostViewModel extends ChangeNotifier {
     scrollController.dispose();
     super.dispose();
   }
+
+  CustomCupertinoPageRoute createRoute(PostModel post) {
+  return CustomCupertinoPageRoute(
+    page: ChangeNotifierProvider(
+      create: (_) => DetailPostViewModel(repository), // truyền repository của bạn
+      child: DetailPostScreen(post: post),
+    ),
+  );
+}
 }

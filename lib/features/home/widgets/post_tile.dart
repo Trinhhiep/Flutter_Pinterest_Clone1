@@ -23,7 +23,7 @@ class _PostTileState extends State<PostTile> {
   Widget build(BuildContext context) {
     return GestureDetector(onTap : onTap ,
     child :  ClipRRect(
-      borderRadius: BorderRadius.circular(8),
+      borderRadius: BorderRadius.circular(16),
       child: AspectRatio(
         aspectRatio: widget.post.aspectRatio,
         child: Stack(

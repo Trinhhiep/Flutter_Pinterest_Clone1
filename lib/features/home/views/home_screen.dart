@@ -13,6 +13,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final viewModel = Provider.of<HomeViewModel>(context);
     final topPadding = MediaQuery.of(context).padding.top; // top safe erea
+    final double horizontalPading = 4;
     return CupertinoPageScaffold(
       // navigationBar: const CupertinoNavigationBar(
       //   // middle: Text("Home"),
@@ -31,7 +32,7 @@ class HomeScreen extends StatelessWidget {
                       sliver: CupertinoSliverRefreshControl(
                         onRefresh: viewModel.refreshPosts,
                         refreshTriggerPullDistance:
-                            250.0, // tăng giá trị này để giảm độ nhạy (mặc định là 100.0)
+                            200.0, // tăng giá trị này để giảm độ nhạy (mặc định là 100.0)
                         refreshIndicatorExtent:
                             60.0, // chiều cao indicator hiển thị khi đang refresh
                       ),
@@ -39,10 +40,10 @@ class HomeScreen extends StatelessWidget {
 
                     // Masonry grid dạng Sliver
                     SliverPadding(
-                      padding: const EdgeInsets.only(
+                      padding: EdgeInsets.only(
                         top: 0,
-                        left: 12,
-                        right: 12,
+                        left: horizontalPading,
+                        right: horizontalPading,
                         bottom: 12,
                       ),
                       sliver: PostGrid(
@@ -50,7 +51,7 @@ class HomeScreen extends StatelessWidget {
                         onTap: (index) {
                           Navigator.push(
                             context,
-                            _createRoute(viewModel.posts[index]),
+                            viewModel.createRoute(viewModel.posts[index]),
                             // CupertinoPageRoute(
                             //   builder:
                             //       (_) => DetailPostScreen(
@@ -76,10 +77,10 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
- CustomCupertinoPageRoute _createRoute(PostModel post) {
-  return CustomCupertinoPageRoute(
-    page: DetailPostScreen(post: post),
-  );
-}
+//  CustomCupertinoPageRoute _createRoute(PostModel post) {
+//   return CustomCupertinoPageRoute(
+//     page: DetailPostScreen(post: post),
+//   );
+// }
 
 }

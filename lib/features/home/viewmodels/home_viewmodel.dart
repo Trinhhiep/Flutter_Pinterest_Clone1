@@ -1,5 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
+import 'package:pinterest_layout_app/features/detailpost/detailpost_creen.dart';
+import 'package:pinterest_layout_app/features/detailpost/detaipost_viewmodel.dart';
+import 'package:pinterest_layout_app/routes/app_routes.dart';
+import 'package:provider/provider.dart';
 import '../../../data/models/post_model.dart';
 import '../../../data/repositories/post_repository.dart';
 
@@ -73,4 +77,13 @@ class HomeViewModel extends ChangeNotifier {
     scrollController.dispose();
     super.dispose();
   }
+
+  CustomCupertinoPageRoute createRoute(PostModel post) {
+  return CustomCupertinoPageRoute(
+    page: ChangeNotifierProvider(
+      create: (_) => DetailPostViewModel(repository), // truyền repository của bạn
+      child: DetailPostScreen(post: post),
+    ),
+  );
+}
 }
