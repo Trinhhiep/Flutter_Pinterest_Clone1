@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:pinterest_layout_app/core/base_network_service.dart';
 import 'package:pinterest_layout_app/features/detailpost/detaipost_viewmodel.dart';
 import 'package:provider/provider.dart';
 
@@ -8,7 +9,7 @@ import 'features/home/viewmodels/home_viewmodel.dart';
 import 'features/root/root_screen.dart';
 
 void main() {
-  final repository = PostRepository(PostRemoteDataSource());
+  final repository = PostRepository();
 
   runApp(
   MultiProvider(
