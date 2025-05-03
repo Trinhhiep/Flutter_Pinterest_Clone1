@@ -7,7 +7,6 @@ import '../../../data/models/post_model.dart';
 import '../../../data/repositories/post_repository.dart';
 
 class DetailPostViewModel extends ChangeNotifier {
-  
   final PostRepository repository;
   final ScrollController scrollController = ScrollController();
   final PostModel mainPost;
@@ -27,7 +26,7 @@ class DetailPostViewModel extends ChangeNotifier {
   bool get isFetchingMore => _isFetchingMore;
 
   Future<void> refreshPosts() async {
-    _currentPage = 0 ;
+    _currentPage = 0;
     notifyListeners();
     // Giả lập lấy lại dữ liệu
     final newPosts = await repository.getPosts(page: _currentPage);
@@ -82,14 +81,14 @@ class DetailPostViewModel extends ChangeNotifier {
     print('🧹 ViewModel Disposed → ${runtimeType}');
   }
 
-//   CustomCupertinoPageRoute createRoute(PostModel post) {
-//   return CustomCupertinoPageRoute(
-//     page: ChangeNotifierProvider(
-//       create: (_) => DetailPostViewModel(repository), // truyền repository của bạn
-//       child: DetailPostScreen(post: post),
-//     ),
-//   );
-// }
+
+  // CustomCupertinoPageRoute createRoute(List<PostModel> posts, int pageIndex) {
+  //   final vm = MulDetailPostViewModel(repository, posts);
+  //   return CustomCupertinoPageRoute(
+  //     childWidget: MulDetailPostScreen(pageIndex: pageIndex, posts: posts),
+  //     provider: vm,
+  //   );
+  // }
 CustomCupertinoPageRoute createRoute(List<PostModel> posts, int pageIndex) {
   return CustomCupertinoPageRoute(
     page: ChangeNotifierProvider(
@@ -98,4 +97,5 @@ CustomCupertinoPageRoute createRoute(List<PostModel> posts, int pageIndex) {
     ),
   );
 }
+
 }

@@ -10,14 +10,21 @@ class MulDetailPostScreen extends StatelessWidget {
   final int pageIndex;
   final double horizontalPading = 4;
 
-  const MulDetailPostScreen({super.key, required this.posts, required this.pageIndex});
+  const MulDetailPostScreen({
+    super.key,
+    required this.posts,
+    required this.pageIndex,
+  });
 
   @override
   Widget build(BuildContext context) {
     final viewModel = Provider.of<MulDetailPostViewModel>(context);
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      viewModel.setPage(pageIndex); // ví dụ: chuyển sang trang 1 khi mở màn hình
+      viewModel.setPage(
+        pageIndex,
+      ); // ví dụ: chuyển sang trang 1 khi mở màn hình
     });
+
     return CupertinoPageScaffold(
       child: SafeArea(
         top: false,
@@ -32,7 +39,7 @@ class MulDetailPostScreen extends StatelessWidget {
               create:
                   (_) => DetailPostViewModel(
                     viewModel.repository,
-                    post
+                    post,
                   ), // truyền repository phù hợp
               child: DetailPostScreen(post: post),
             );

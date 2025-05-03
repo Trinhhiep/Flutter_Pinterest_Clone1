@@ -29,12 +29,15 @@ class MulDetailPostViewModel extends ChangeNotifier {
     super.dispose();
   }
 
-  //   CustomCupertinoPageRoute createRoute(List<PostModel> posts) {
-  //   return CustomCupertinoPageRoute(
-  //     page: ChangeNotifierProvider(
-  //       create: (_) => MulDetailPostViewModel(repository), // truyền repository của bạn
-  //       child: MulDetailPostScreen(posts: posts),
-  //     ),
-  //   );
-  // }
+
+  
+CustomCupertinoPageRoute createRoute(List<PostModel> posts, int pageIndex) {
+  return CustomCupertinoPageRoute(
+    page: ChangeNotifierProvider(
+      create: (_) => MulDetailPostViewModel(repository,posts), // truyền repository của bạn
+      child: MulDetailPostScreen(posts: posts, pageIndex: pageIndex),
+    ),
+  );
+}
+
 }

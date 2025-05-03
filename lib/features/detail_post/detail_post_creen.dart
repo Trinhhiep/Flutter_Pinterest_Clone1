@@ -30,51 +30,59 @@ class DetailPostScreen extends StatelessWidget {
                     left: horizontalPading,
                     right: horizontalPading,
                     bottom: 12,
-                    
                   ),
                   sliver: SliverToBoxAdapter(
-                    child: PostTile(post: post, onTap: () {}),
+                    child: Hero(
+                      tag: post.id,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(16),
+                        child: AspectRatio(
+                          aspectRatio: post.aspectRatio,
+                          child: Image.network(
+                            post.imageUrl,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                    ),
                   ),
                 ),
-                // Masonry grid dạng Sliver
-                viewModel.isFirstFetch
-                    ? SliverToBoxAdapter(
-                      child: const Center(child: CupertinoActivityIndicator()),
-                    )
-                    : SliverPadding(
-                      padding: EdgeInsets.only(
-                        top: 0,
-                        left: horizontalPading,
-                        right: horizontalPading,
-                        bottom: 12,
-                      ),
-                      sliver: PostGrid(
-                        posts: viewModel.posts,
-                        onTap: (index) {
-                          Navigator.push(
-                            context,
-                            // _createRoute(viewModel.posts[index]),
-                            viewModel.createRoute(viewModel.posts, index),
-                          );
-                        },
-                      ),
-                    ),
+                // // Masonry grid dạng Sliver
+                // viewModel.isFirstFetch
+                //     ? SliverToBoxAdapter(
+                //       child: const Center(child: CupertinoActivityIndicator()),
+                //     )
+                //     : SliverPadding(
+                //       padding: EdgeInsets.only(
+                //         top: 0,
+                //         left: horizontalPading,
+                //         right: horizontalPading,
+                //         bottom: 12,
+                //       ),
+                //       sliver: PostGrid(
+                //         posts: viewModel.posts,
+                //         onTap: (index) {
+                //           Navigator.push(
+                //             context,
+                //             // _createRoute(viewModel.posts[index]),
+                //             viewModel.createRoute(viewModel.posts, index),
+                //           );
+                //         },
+                //       ),
+                //     ),
 
-                // Loading indicator khi load more
-                if (viewModel.isFetchingMore)
-                  const SliverToBoxAdapter(
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(vertical: 16),
-                      child: Center(child: CupertinoActivityIndicator()),
-                    ),
-                  ),
+                // // Loading indicator khi load more
+                // if (viewModel.isFetchingMore)
+                //   const SliverToBoxAdapter(
+                //     child: Padding(
+                //       padding: EdgeInsets.symmetric(vertical: 16),
+                //       child: Center(child: CupertinoActivityIndicator()),
+                //     ),
+                //   ),
               ],
             ),
             Padding(
-              padding: EdgeInsets.only(
-                top: topPadding + 6,
-                left: 12,
-              ),
+              padding: EdgeInsets.only(top: topPadding + 6, left: 12),
               child: CupertinoBackButton(),
             ),
           ],
@@ -83,7 +91,4 @@ class DetailPostScreen extends StatelessWidget {
     );
   }
 
-  // CustomCupertinoPageRoute _createRoute(PostModel post) {
-  //   return CustomCupertinoPageRoute(page: DetailPostScreen(post: post));
-  // }
 }
