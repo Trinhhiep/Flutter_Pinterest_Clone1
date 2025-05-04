@@ -42,13 +42,19 @@ class DetailPostScreen extends StatelessWidget {
                   sliver: SliverToBoxAdapter(
                     child: Hero(
                       tag: post.id,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(16),
-                        child: AspectRatio(
-                          aspectRatio: post.aspectRatio,
-                          child: Image.network(
-                            post.imageUrl,
-                            fit: BoxFit.cover,
+                      createRectTween:
+                          (begin, end) => RectTween(begin: begin, end: end),
+                      child: Material(
+                        // 👈 Thêm dòng này để tránh biến dạng
+                        color: Colors.transparent,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(16),
+                          child: AspectRatio(
+                            aspectRatio: post.aspectRatio,
+                            child: Image.network(
+                              post.imageUrl,
+                              fit: BoxFit.cover,
+                            ),
                           ),
                         ),
                       ),
@@ -73,10 +79,7 @@ class DetailPostScreen extends StatelessWidget {
                         crossAxisSpacing: 4,
                         childCount: viewModel.posts.length,
                         itemBuilder: (context, index) {
-                          return _buildTile(
-                            context,
-                            index,
-                          );
+                          return _buildTile(context, index);
                         },
                       ),
                     ),
@@ -121,13 +124,21 @@ Widget _buildTile(BuildContext context, int index) {
     },
     child: Hero(
       tag: viewModel.posts[index].id,
+      createRectTween: (begin, end) => RectTween(begin: begin, end: end),
       child: AspectRatio(
         aspectRatio:
             viewModel.posts[index].aspectRatio, // dùng ratio thay cho height
-        child: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(8),
-            image: DecorationImage(image: NetworkImage(viewModel.posts[index].imageUrl), fit: BoxFit.cover),
+        child: Material(
+          // 👈 Thêm dòng này để tránh biến dạng
+          color: Colors.transparent,
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+              image: DecorationImage(
+                image: NetworkImage(viewModel.posts[index].imageUrl),
+                fit: BoxFit.cover,
+              ),
+            ),
           ),
         ),
       ),

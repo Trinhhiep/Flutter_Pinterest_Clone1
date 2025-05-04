@@ -99,13 +99,21 @@ Widget _buildTile(BuildContext context, int index) {
     },
     child: Hero(
       tag: viewModel.posts[index].id,
+      createRectTween: (begin, end) => RectTween(begin: begin, end: end),
       child: AspectRatio(
         aspectRatio:
             viewModel.posts[index].aspectRatio, // dùng ratio thay cho height
-        child: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(8),
-            image: DecorationImage(image: NetworkImage(viewModel.posts[index].imageUrl), fit: BoxFit.cover),
+        child: Material(
+          // 👈 Thêm dòng này để tránh biến dạng
+          color: Colors.transparent,
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+              image: DecorationImage(
+                image: NetworkImage(viewModel.posts[index].imageUrl),
+                fit: BoxFit.cover,
+              ),
+            ),
           ),
         ),
       ),
