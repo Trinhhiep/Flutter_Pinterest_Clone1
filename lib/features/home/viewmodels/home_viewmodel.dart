@@ -90,7 +90,7 @@ class HomeViewModel extends ChangeNotifier {
 CustomCupertinoPageRoute createRoute(List<PostModel> posts, int pageIndex) {
   return CustomCupertinoPageRoute(
     page: ChangeNotifierProvider(
-      create: (_) => MulDetailPostViewModel(repository,posts), // truyền repository của bạn
+      create: (_) => MulDetailPostViewModel(posts), // truyền repository của bạn
       child: MulDetailPostScreen(posts: posts, pageIndex: pageIndex),
     ),
   );

@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'data/repositories/post_repository.dart';
 import 'features/home/viewmodels/home_viewmodel.dart';
@@ -28,7 +29,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const CupertinoApp(
+    return const MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Pinterest Clone',
       home: RootScreen(),

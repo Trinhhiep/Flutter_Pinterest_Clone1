@@ -7,7 +7,7 @@ import '../../../data/models/post_model.dart';
 import '../../../data/repositories/post_repository.dart';
 
 class DetailPostViewModel extends ChangeNotifier {
-  final PostRepository repository;
+  final PostRepository repository = PostRepository();
   final ScrollController scrollController = ScrollController();
   final PostModel mainPost;
   List<PostModel> posts = [];
@@ -16,7 +16,7 @@ class DetailPostViewModel extends ChangeNotifier {
   bool _isFetchingMore = false;
   bool _hasMore = true;
 
-  DetailPostViewModel(this.repository, this.mainPost) {
+  DetailPostViewModel(this.mainPost) {
     fetchData();
     scrollController.addListener(_onScroll);
     print("DetailPostViewModel ===== Init =====");
@@ -92,7 +92,7 @@ class DetailPostViewModel extends ChangeNotifier {
 CustomCupertinoPageRoute createRoute(List<PostModel> posts, int pageIndex) {
   return CustomCupertinoPageRoute(
     page: ChangeNotifierProvider(
-      create: (_) => MulDetailPostViewModel(repository,posts), // truyền repository của bạn
+      create: (_) => MulDetailPostViewModel(posts), // truyền repository của bạn
       child: MulDetailPostScreen(posts: posts, pageIndex: pageIndex),
     ),
   );

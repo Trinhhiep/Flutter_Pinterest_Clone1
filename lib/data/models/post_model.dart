@@ -1,17 +1,18 @@
+import 'package:uuid/uuid.dart';
+
 class PostModel {
-  final String id;
+  final String id = Uuid().v4(); // Tạo id ngẫu nhiên
   final String imageUrl;
   final String title;
   final double width;
   final double height;
 
   PostModel({
-    required this.id,
     required this.imageUrl,
     required this.title,
     required this.width,
     required this.height,
-  }); 
+  });
   double get aspectRatio {
     if (width > 0 && height > 0) {
       return width / height;

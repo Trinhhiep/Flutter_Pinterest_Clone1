@@ -1,5 +1,14 @@
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:pinterest_layout_app/features/detail_post/detail_post_creen.dart';
+import 'package:pinterest_layout_app/features/detail_post/detail_post_viewmodel.dart';
 import 'package:pinterest_layout_app/features/home/widgets/post_grid.dart';
+import 'package:pinterest_layout_app/features/home/widgets/post_tile.dart';
+import 'package:pinterest_layout_app/features/mul_detail_post/mul_detail_post_screen.dart';
+import 'package:pinterest_layout_app/features/mul_detail_post/mul_detail_post_viewmodel.dart';
 import 'package:provider/provider.dart';
 import '../viewmodels/home_viewmodel.dart';
 
@@ -11,11 +20,10 @@ class HomeScreen extends StatelessWidget {
     final viewModel = Provider.of<HomeViewModel>(context);
     final topPadding = MediaQuery.of(context).padding.top; // top safe erea
     final double horizontalPading = 4;
-    return CupertinoPageScaffold(
-      // navigationBar: const CupertinoNavigationBar(
-      //   // middle: Text("Home"),
-      // ),
-      child: SafeArea(
+   
+    return Scaffold(
+      // appBar: AppBar(title: Text('Gallery')),
+      body: SafeArea(
         top: false,
         child:
             viewModel.isFirstFetch
@@ -43,18 +51,15 @@ class HomeScreen extends StatelessWidget {
                         right: horizontalPading,
                         bottom: 12,
                       ),
-                      sliver: PostGrid(
-                        posts: viewModel.posts,
-                        onTap: (index) {
-                          Navigator.push(
+                      sliver: SliverMasonryGrid.count(
+                        crossAxisCount: 2,
+                        mainAxisSpacing: 8,
+                        crossAxisSpacing: 4,
+                        childCount: viewModel.posts.length,
+                        itemBuilder: (context, index) {
+                          return _buildTile(
                             context,
-                            viewModel.createRoute(viewModel.posts, index),
-                            // CupertinoPageRoute(
-                            //   builder:
-                            //       (_) => DetailPostScreen(
-                            //         post: viewModel.posts[index],
-                            //       ),
-                            // ),
+                            index,
                           );
                         },
                       ),
@@ -73,11 +78,37 @@ class HomeScreen extends StatelessWidget {
       ),
     );
   }
+}
 
-//  CustomCupertinoPageRoute _createRoute(PostModel post) {
-//   return CustomCupertinoPageRoute(
-//     page: DetailPostScreen(post: post),
-//   );
-// }
-
+Widget _buildTile(BuildContext context, int index) {
+  final viewModel = Provider.of<HomeViewModel>(context);
+  return GestureDetector(
+    onTap: () {
+      Navigator.of(context).push(
+        PageRouteBuilder(
+          pageBuilder:
+              (_, __, ___) => MultiDetailScreen(
+                posts: viewModel.posts,
+                initialIndex: index,
+              ),
+          transitionDuration: Duration(milliseconds: 300),
+          reverseTransitionDuration: Duration(milliseconds: 300),
+          transitionsBuilder: (_, __, ___, child) => child,
+        ),
+      );
+    },
+    child: Hero(
+      tag: viewModel.posts[index].id,
+      child: AspectRatio(
+        aspectRatio:
+            viewModel.posts[index].aspectRatio, // dùng ratio thay cho height
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(8),
+            image: DecorationImage(image: NetworkImage(viewModel.posts[index].imageUrl), fit: BoxFit.cover),
+          ),
+        ),
+      ),
+    ),
+  );
 }

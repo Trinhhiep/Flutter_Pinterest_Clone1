@@ -27,7 +27,6 @@ class PostRemoteDataSource {
       final height = json['height']?.toDouble() ?? 0;
 
       return PostModel(
-        id: json['id'].toString(),
         title: json['photographer'] ?? 'Unknown',
         imageUrl: imageUrl,
         width: width,

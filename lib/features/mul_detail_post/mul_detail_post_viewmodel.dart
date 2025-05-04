@@ -7,11 +7,11 @@ import '../../../data/models/post_model.dart';
 import '../../../data/repositories/post_repository.dart';
 
 class MulDetailPostViewModel extends ChangeNotifier {
-  final PostRepository repository;
+  final PostRepository repository = PostRepository();
   final PageController pageController = PageController();
   final List<PostModel> posts;
 
-  MulDetailPostViewModel(this.repository, this.posts) {
+  MulDetailPostViewModel(this.posts) {
     pageController.addListener(_onScroll);
   }
   void setPage(int index) {
@@ -34,7 +34,7 @@ class MulDetailPostViewModel extends ChangeNotifier {
 CustomCupertinoPageRoute createRoute(List<PostModel> posts, int pageIndex) {
   return CustomCupertinoPageRoute(
     page: ChangeNotifierProvider(
-      create: (_) => MulDetailPostViewModel(repository,posts), // truyền repository của bạn
+      create: (_) => MulDetailPostViewModel(posts), // truyền repository của bạn
       child: MulDetailPostScreen(posts: posts, pageIndex: pageIndex),
     ),
   );
