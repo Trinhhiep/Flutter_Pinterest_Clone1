@@ -20,7 +20,7 @@ class HomeScreen extends StatelessWidget {
     final viewModel = Provider.of<HomeViewModel>(context);
     final topPadding = MediaQuery.of(context).padding.top; // top safe erea
     final double horizontalPading = 4;
-   
+
     return Scaffold(
       // appBar: AppBar(title: Text('Gallery')),
       body: SafeArea(
@@ -57,10 +57,32 @@ class HomeScreen extends StatelessWidget {
                         crossAxisSpacing: 4,
                         childCount: viewModel.posts.length,
                         itemBuilder: (context, index) {
-                          return _buildTile(
-                            context,
-                            index,
+                          return PostTile(
+                            post: viewModel.posts[index],
+                            onTap: () {
+                              Navigator.of(context).push(
+                                PageRouteBuilder(
+                                  pageBuilder:
+                                      (_, __, ___) => MultiDetailScreen(
+                                        posts: viewModel.posts,
+                                        initialIndex: index,
+                                      ),
+                                  transitionDuration: const Duration(
+                                    milliseconds: 300,
+                                  ),
+                                  reverseTransitionDuration: const Duration(
+                                    milliseconds: 300,
+                                  ),
+                                  transitionsBuilder:
+                                      (_, __, ___, child) => child,
+                                ),
+                              );
+                            },
                           );
+                          // return _buildTile(
+                          //   context,
+                          //   index,
+                          // );
                         },
                       ),
                     ),
@@ -80,43 +102,43 @@ class HomeScreen extends StatelessWidget {
   }
 }
 
-Widget _buildTile(BuildContext context, int index) {
-  final viewModel = Provider.of<HomeViewModel>(context);
-  return GestureDetector(
-    onTap: () {
-      Navigator.of(context).push(
-        PageRouteBuilder(
-          pageBuilder:
-              (_, __, ___) => MultiDetailScreen(
-                posts: viewModel.posts,
-                initialIndex: index,
-              ),
-          transitionDuration: Duration(milliseconds: 300),
-          reverseTransitionDuration: Duration(milliseconds: 300),
-          transitionsBuilder: (_, __, ___, child) => child,
-        ),
-      );
-    },
-    child: Hero(
-      tag: viewModel.posts[index].id,
-      createRectTween: (begin, end) => RectTween(begin: begin, end: end),
-      child: AspectRatio(
-        aspectRatio:
-            viewModel.posts[index].aspectRatio, // dùng ratio thay cho height
-        child: Material(
-          // 👈 Thêm dòng này để tránh biến dạng
-          color: Colors.transparent,
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8),
-              image: DecorationImage(
-                image: NetworkImage(viewModel.posts[index].imageUrl),
-                fit: BoxFit.cover,
-              ),
-            ),
-          ),
-        ),
-      ),
-    ),
-  );
-}
+// Widget _buildTile(BuildContext context, int index) {
+//   final viewModel = Provider.of<HomeViewModel>(context);
+//   return GestureDetector(
+//     onTap: () {
+//       Navigator.of(context).push(
+//         PageRouteBuilder(
+//           pageBuilder:
+//               (_, __, ___) => MultiDetailScreen(
+//                 posts: viewModel.posts,
+//                 initialIndex: index,
+//               ),
+//           transitionDuration: Duration(milliseconds: 300),
+//           reverseTransitionDuration: Duration(milliseconds: 300),
+//           transitionsBuilder: (_, __, ___, child) => child,
+//         ),
+//       );
+//     },
+//     child: Hero(
+//       tag: viewModel.posts[index].id,
+//       createRectTween: (begin, end) => RectTween(begin: begin, end: end),
+//       child: AspectRatio(
+//         aspectRatio:
+//             viewModel.posts[index].aspectRatio, // dùng ratio thay cho height
+//         child: Material(
+//           // 👈 Thêm dòng này để tránh biến dạng
+//           color: Colors.transparent,
+//           child: Container(
+//             decoration: BoxDecoration(
+//               borderRadius: BorderRadius.circular(8),
+//               image: DecorationImage(
+//                 image: NetworkImage(viewModel.posts[index].imageUrl),
+//                 fit: BoxFit.cover,
+//               ),
+//             ),
+//           ),
+//         ),
+//       ),
+//     ),
+//   );
+// }
