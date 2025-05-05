@@ -1,144 +1,105 @@
-import 'dart:math';
-
+import 'dart:typed_data';
+import 'dart:ui' as ui;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:pinterest_layout_app/features/detail_post/detail_post_creen.dart';
-import 'package:pinterest_layout_app/features/detail_post/detail_post_viewmodel.dart';
-import 'package:pinterest_layout_app/features/home/widgets/post_grid.dart';
-import 'package:pinterest_layout_app/features/home/widgets/post_tile.dart';
+import 'package:pinterest_layout_app/core/extension.dart';
+import 'package:pinterest_layout_app/features/home/viewmodels/home_viewmodel.dart';
 import 'package:pinterest_layout_app/features/mul_detail_post/mul_detail_post_screen.dart';
-import 'package:pinterest_layout_app/features/mul_detail_post/mul_detail_post_viewmodel.dart';
 import 'package:provider/provider.dart';
+
 import '../viewmodels/home_viewmodel.dart';
+import '../widgets/post_tile.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
+  static final GlobalKey previewKey = GlobalKey();
+
+  Future<ui.Image> captureScreen(GlobalKey key) async {
+    final boundary =
+        key.currentContext?.findRenderObject() as RenderRepaintBoundary?;
+    if (boundary == null) throw Exception("Cannot find render boundary");
+    final image = await boundary.toImage(pixelRatio: 2.0);
+    return image;
+  }
+
+  Future<Uint8List> imageToBytes(ui.Image image) async {
+    final byteData = await image.toByteData(format: ui.ImageByteFormat.png);
+    return byteData!.buffer.asUint8List();
+  }
+
   @override
   Widget build(BuildContext context) {
     final viewModel = Provider.of<HomeViewModel>(context);
-    final topPadding = MediaQuery.of(context).padding.top; // top safe erea
-    final double horizontalPading = 4;
+    final topPadding = MediaQuery.of(context).padding.top;
+    final double horizontalPadding = 4;
 
     return Scaffold(
-      // appBar: AppBar(title: Text('Gallery')),
-      body: SafeArea(
-        top: false,
-        child:
-            viewModel.isFirstFetch
-                ? const Center(child: CupertinoActivityIndicator())
-                : CustomScrollView(
-                  controller: viewModel.scrollController,
-                  slivers: [
-                    // Pull-to-refresh
-                    SliverPadding(
-                      padding: EdgeInsets.only(top: topPadding),
-                      sliver: CupertinoSliverRefreshControl(
-                        onRefresh: viewModel.refreshPosts,
-                        refreshTriggerPullDistance:
-                            200.0, // tăng giá trị này để giảm độ nhạy (mặc định là 100.0)
-                        refreshIndicatorExtent:
-                            60.0, // chiều cao indicator hiển thị khi đang refresh
-                      ),
-                    ),
-
-                    // Masonry grid dạng Sliver
-                    SliverPadding(
-                      padding: EdgeInsets.only(
-                        top: 0,
-                        left: horizontalPading,
-                        right: horizontalPading,
-                        bottom: 12,
-                      ),
-                      sliver: SliverMasonryGrid.count(
-                        crossAxisCount: 2,
-                        mainAxisSpacing: 8,
-                        crossAxisSpacing: 4,
-                        childCount: viewModel.posts.length,
-                        itemBuilder: (context, index) {
-                          return PostTile(
-                            post: viewModel.posts[index],
-                            onTap: () {
-                              Navigator.of(context).push(
-                                PageRouteBuilder(
-                                  pageBuilder:
-                                      (_, __, ___) => MultiDetailScreen(
-                                        posts: viewModel.posts,
-                                        initialIndex: index,
-                                      ),
-                                  transitionDuration: const Duration(
-                                    milliseconds: 300,
-                                  ),
-                                  reverseTransitionDuration: const Duration(
-                                    milliseconds: 300,
-                                  ),
-                                  transitionsBuilder:
-                                      (_, __, ___, child) => child,
-                                ),
+      body: RepaintBoundary(
+        key: previewKey,
+        child: Container(
+          color: Colors.white,
+          child: SafeArea(
+            top: false,
+            child:
+                viewModel.isFirstFetch
+                    ? const Center(child: CupertinoActivityIndicator())
+                    : CustomScrollView(
+                      controller: viewModel.scrollController,
+                      slivers: [
+                        SliverPadding(
+                          padding: EdgeInsets.only(top: topPadding),
+                          sliver: CupertinoSliverRefreshControl(
+                            onRefresh: viewModel.refreshPosts,
+                            refreshTriggerPullDistance: 200.0,
+                            refreshIndicatorExtent: 60.0,
+                          ),
+                        ),
+                        SliverPadding(
+                          padding: EdgeInsets.only(
+                            top: 0,
+                            left: horizontalPadding,
+                            right: horizontalPadding,
+                            bottom: 12,
+                          ),
+                          sliver: SliverMasonryGrid.count(
+                            crossAxisCount: 2,
+                            mainAxisSpacing: 8,
+                            crossAxisSpacing: 4,
+                            childCount: viewModel.posts.length,
+                            itemBuilder: (context, index) {
+                              return PostTile(
+                                key: key,
+                                post: viewModel.posts[index],
+                                onTap: () async {
+                                  final image = await captureScreen(previewKey);
+                                  final bytes = await imageToBytes(image);
+                                  Navigator.of(context).pushMultiDetailScreen(
+                                    viewModel.posts,
+                                    index,
+                                    bytes,
+                                  );
+                                },
                               );
                             },
-                          );
-                          // return _buildTile(
-                          //   context,
-                          //   index,
-                          // );
-                        },
-                      ),
-                    ),
-
-                    // Loading indicator khi load more
-                    if (viewModel.isFetchingMore)
-                      const SliverToBoxAdapter(
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(vertical: 16),
-                          child: Center(child: CupertinoActivityIndicator()),
+                          ),
                         ),
-                      ),
-                  ],
-                ),
+                        if (viewModel.isFetchingMore)
+                          const SliverToBoxAdapter(
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(vertical: 16),
+                              child: Center(
+                                child: CupertinoActivityIndicator(),
+                              ),
+                            ),
+                          ),
+                      ],
+                    ),
+          ),
+        ),
       ),
     );
   }
 }
-
-// Widget _buildTile(BuildContext context, int index) {
-//   final viewModel = Provider.of<HomeViewModel>(context);
-//   return GestureDetector(
-//     onTap: () {
-//       Navigator.of(context).push(
-//         PageRouteBuilder(
-//           pageBuilder:
-//               (_, __, ___) => MultiDetailScreen(
-//                 posts: viewModel.posts,
-//                 initialIndex: index,
-//               ),
-//           transitionDuration: Duration(milliseconds: 300),
-//           reverseTransitionDuration: Duration(milliseconds: 300),
-//           transitionsBuilder: (_, __, ___, child) => child,
-//         ),
-//       );
-//     },
-//     child: Hero(
-//       tag: viewModel.posts[index].id,
-//       createRectTween: (begin, end) => RectTween(begin: begin, end: end),
-//       child: AspectRatio(
-//         aspectRatio:
-//             viewModel.posts[index].aspectRatio, // dùng ratio thay cho height
-//         child: Material(
-//           // 👈 Thêm dòng này để tránh biến dạng
-//           color: Colors.transparent,
-//           child: Container(
-//             decoration: BoxDecoration(
-//               borderRadius: BorderRadius.circular(8),
-//               image: DecorationImage(
-//                 image: NetworkImage(viewModel.posts[index].imageUrl),
-//                 fit: BoxFit.cover,
-//               ),
-//             ),
-//           ),
-//         ),
-//       ),
-//     ),
-//   );
-// }
