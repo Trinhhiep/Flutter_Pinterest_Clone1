@@ -5,15 +5,14 @@ import '../datasources/post_remote_datasource.dart';
 class PostRepository {
   final remoteDataSource = PostRemoteDataSource(
     BaseNetworkService(
-      baseUrl: 'https://api.pexels.com/v1/',
-      defaultHeaders: {
-        'Authorization':
-            'jLisoOyly4OkH3Ih4hovJEA2KT49eoU0DeZFdh3MxMhpXVCEl1I26z8z',
-      },
+      baseUrl: 'https://pixabay.com/api/',
+      defaultHeaders: {}, // ❌ Pixabay không cần header
     ),
   );
 
-  Future<List<PostModel>> getPosts({int page = 0}) {
-    return remoteDataSource.fetchPosts(page: page);
+  Future<List<PostModel>> getPosts({int page = 0, String? category}) {
+    return remoteDataSource.fetchPosts(page: page, category: category);
   }
 }
+
+// Future<List<PostModel>> getPostsByQuery({String? tag, String? category}) {

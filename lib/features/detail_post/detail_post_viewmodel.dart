@@ -29,7 +29,7 @@ class DetailPostViewModel extends ChangeNotifier {
     _currentPage = 0;
     notifyListeners();
     // Giả lập lấy lại dữ liệu
-    final newPosts = await repository.getPosts(page: _currentPage);
+    final newPosts = await repository.getPosts(page: _currentPage, category: mainPost.category);
     posts = newPosts;
 
     print("DetailPostViewModel pullToRefresh");
@@ -43,8 +43,9 @@ class DetailPostViewModel extends ChangeNotifier {
     isFirstFetch = true;
     notifyListeners();
 
-    final newPosts = await repository.getPosts(page: _currentPage);
+    final newPosts = await repository.getPosts(page: _currentPage, category: mainPost.category);
     posts = newPosts;
+
     isFirstFetch = false;
     notifyListeners();
   }
@@ -55,7 +56,7 @@ class DetailPostViewModel extends ChangeNotifier {
     _isFetchingMore = true;
     _currentPage++;
 
-    final morePosts = await repository.getPosts(page: _currentPage);
+    final morePosts = await repository.getPosts(page: _currentPage, category: mainPost.category);
     if (morePosts.isEmpty) {
       _hasMore = false;
     } else {
@@ -82,20 +83,5 @@ class DetailPostViewModel extends ChangeNotifier {
   }
 
 
-  // CustomCupertinoPageRoute createRoute(List<PostModel> posts, int pageIndex) {
-  //   final vm = MulDetailPostViewModel(repository, posts);
-  //   return CustomCupertinoPageRoute(
-  //     childWidget: MulDetailPostScreen(pageIndex: pageIndex, posts: posts),
-  //     provider: vm,
-  //   );
-  // }
-CustomCupertinoPageRoute createRoute(List<PostModel> posts, int pageIndex) {
-  return CustomCupertinoPageRoute(
-    page: ChangeNotifierProvider(
-      create: (_) => MulDetailPostViewModel(posts), // truyền repository của bạn
-      child: MulDetailPostScreen(posts: posts, pageIndex: pageIndex),
-    ),
-  );
-}
 
 }

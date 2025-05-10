@@ -79,23 +79,6 @@ class HomeViewModel extends ChangeNotifier {
     super.dispose();
   }
 
-
-  // CustomCupertinoPageRoute createRoute(List<PostModel> posts, int pageIndex) {
-  //   final vm = MulDetailPostViewModel(repository, posts);
-  //   return CustomCupertinoPageRoute(
-  //     childWidget: MulDetailPostScreen(pageIndex: pageIndex, posts: posts),
-  //     provider: vm,
-  //   );
-  // }
-CustomCupertinoPageRoute createRoute(List<PostModel> posts, int pageIndex) {
-  return CustomCupertinoPageRoute(
-    page: ChangeNotifierProvider(
-      create: (_) => MulDetailPostViewModel(posts), // truyền repository của bạn
-      child: MulDetailPostScreen(posts: posts, pageIndex: pageIndex),
-    ),
-  );
-}
-
 }
 
 

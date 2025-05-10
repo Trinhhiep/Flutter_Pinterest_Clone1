@@ -62,48 +62,48 @@ class DetailPostScreen extends StatelessWidget {
                   ),
                 ),
                 // Masonry grid dạng Sliver
-                // viewModel.isFirstFetch
-                //     ? SliverToBoxAdapter(
-                //       child: const Center(child: CupertinoActivityIndicator()),
-                //     )
-                //     : SliverPadding(
-                //       padding: EdgeInsets.only(
-                //         top: 0,
-                //         left: horizontalPading,
-                //         right: horizontalPading,
-                //         bottom: 12,
-                //       ),
-                //       sliver: SliverMasonryGrid.count(
-                //         crossAxisCount: 2,
-                //         mainAxisSpacing: 8,
-                //         crossAxisSpacing: 4,
-                //         childCount: viewModel.posts.length,
-                //         itemBuilder: (context, index) {
-                //           return PostTile(
-                //             post: viewModel.posts[index],
-                //             onTap: () {
-                //               Navigator.of(context).push(
-                //                 PageRouteBuilder(
-                //                   pageBuilder:
-                //                       (_, __, ___) => MultiDetailScreen(
-                //                         posts: viewModel.posts,
-                //                         initialIndex: index,
-                //                       ),
-                //                   transitionDuration: const Duration(
-                //                     milliseconds: 300,
-                //                   ),
-                //                   reverseTransitionDuration: const Duration(
-                //                     milliseconds: 300,
-                //                   ),
-                //                   transitionsBuilder:
-                //                       (_, __, ___, child) => child,
-                //                 ),
-                //               );
-                //             },
-                //           );
-                //         },
-                //       ),
-                //     ),
+                viewModel.isFirstFetch
+                    ? SliverToBoxAdapter(
+                      child: const Center(child: CupertinoActivityIndicator()),
+                    )
+                    : SliverPadding(
+                      padding: EdgeInsets.only(
+                        top: 0,
+                        left: horizontalPading,
+                        right: horizontalPading,
+                        bottom: 12,
+                      ),
+                      sliver: SliverMasonryGrid.count(
+                        crossAxisCount: 2,
+                        mainAxisSpacing: 8,
+                        crossAxisSpacing: 4,
+                        childCount: viewModel.posts.length,
+                        itemBuilder: (context, index) {
+                          return PostTile(
+                            post: viewModel.posts[index],
+                            onTap: () {
+                              Navigator.of(context).push(
+                                PageRouteBuilder(
+                                  pageBuilder:
+                                      (_, __, ___) => MultiDetailScreen(
+                                        posts: viewModel.posts,
+                                        initialIndex: index,
+                                      ),
+                                  transitionDuration: const Duration(
+                                    milliseconds: 300,
+                                  ),
+                                  reverseTransitionDuration: const Duration(
+                                    milliseconds: 300,
+                                  ),
+                                  transitionsBuilder:
+                                      (_, __, ___, child) => child,
+                                ),
+                              );
+                            },
+                          );
+                        },
+                      ),
+                    ),
 
                 // Loading indicator khi load more
                 if (viewModel.isFetchingMore)
