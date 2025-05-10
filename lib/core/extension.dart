@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:pinterest_layout_app/data/models/post_model.dart';
 import 'package:pinterest_layout_app/features/mul_detail_post/mul_detail_post_screen.dart';
 
+
+
 extension NavigationExtensions on NavigatorState {
   Future<T?> pushMultiDetailScreen<T>(
     List<PostModel> posts,
@@ -24,10 +26,10 @@ extension NavigationExtensions on NavigatorState {
             MediaQuery.of(context).size.height,
           );
           final endRect = Rect.fromLTWH(
-            0,
-            0,
-            MediaQuery.of(context).size.width * 2.0,
-            MediaQuery.of(context).size.height * 2.0,
+            - MediaQuery.of(context).size.width * 0.1,
+            - MediaQuery.of(context).size.height * 0.1,
+            MediaQuery.of(context).size.width  + MediaQuery.of(context).size.width * 0.2,
+            MediaQuery.of(context).size.height + MediaQuery.of(context).size.height * 0.2,
           );
 
           // Dùng Curves.linear cho animation của cả Hero và Zoom
